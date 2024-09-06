@@ -62,7 +62,6 @@ public class Topic {
      * @throws BrokerException      если произошла ошибка во время обработки сообщения
      */
     public Message consumeMessage(int index) throws InterruptedException {
-        lock.lock();
         try {
             semaphore.acquire();
             while (messageList.isEmpty()) {
@@ -75,7 +74,6 @@ public class Topic {
         } catch (Exception ex) {
             throw new BrokerException(ex.getMessage());
         } finally {
-            lock.unlock();
             semaphore.release();
         }
     }
